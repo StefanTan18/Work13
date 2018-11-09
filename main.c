@@ -2,9 +2,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
+#include <fcntl.h>
 
 static void sighandler( int signo ) {
   if (signo == SIGINT) {
+    int fd = open("err.txt", O_CREAT | O_WRONLY | O_APPEND, 0666);
+    char s[] = "Program Exited Due to SIGINT\n";
+    write(fd, s, 29);
+    close(fd);
     printf("\nProgram Exited Due to SIGINT\n");
     exit(0);
   }
